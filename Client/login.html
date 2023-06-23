@@ -1,0 +1,271 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Effect</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://firebasestorage.googleapis.com/v0/b/upload-file-c9db4.appspot.com/o/images%2Fbg4.jpg?alt=media&token=1d435986-9e0f-4945-b132-1224d81c11d9");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    max-width: 430px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    /* backdrop-filter: blur(5px); */
+    color: #fff;
+}
+
+#check {
+    display: none;
+}
+
+.login {
+    display: none;
+}
+
+#check:checked ~ .login {
+    display: block;
+}
+
+#check:checked ~ .regis {
+    display: none;
+}
+
+#log {
+    margin: 0.4rem 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+#sign {
+    margin: 0.4rem 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+form input {
+    width: 100%;
+    height: 56px;
+    font-size: 17px;
+    padding: 0 15px;
+    margin-bottom: 1.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(-5px);
+    border-radius: 5px;
+    box-shadow: inset 0px 0px 5px rgba(0,0,0, 0.5);
+    outline: none;
+    color: #fff;
+}
+
+form input:focus {
+   box-shadow: 1 2px 2px rgba(0,0,0,0.2);
+}
+
+#fpass {
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+}
+#fpass:hover{
+    text-decoration: underline;
+}
+
+.logagree {
+    margin-top: 1.4rem;
+    margin-bottom: 0.6rem;
+}
+
+.check2 {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+}
+
+.agree{
+    color: white;
+    font-size: 1rem;
+    margin-right: 2rem;
+}
+
+.btn {
+    margin: 0.4rem 24%;
+    padding: 0.6rem;
+    outline: none;
+    width: 12rem;
+    height: 3rem;
+    border-radius: 20px;
+    border-style: none;
+    background-color: rgb(6, 212, 151);
+    font-weight: 600;
+    font-size: large;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.switch {
+  margin-top: 1rem;  
+  font-size: 17px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.switch label{
+    color: white;
+  cursor: pointer;
+}
+.switch label:hover{
+  text-decoration: underline;
+}
+    </style>
+</head>
+<body>
+    <div class="back"></div>
+    <div class="container">
+        <input type="checkbox" name="check" id="check">
+        <div class="regis form" id="sign">
+            <form action="#"  id="form" class="form">
+                <header class="header">Signup</header>
+                <input type="text" placeholder="User Name" id="user">
+                <input type="email" placeholder="Email Id" id="semail">
+                <input type="password" placeholder="Password" id="spass">
+                <input type="password" placeholder="Confirm Password" id="confirmpass">
+                <input type="checkbox" name="check2" class="check2">
+                <label for="check2" id="agree" class="agree">I agree with form & conditions</label>
+                <button type="button" class="btn regis" onclick="change()">Register</button>
+            </form>
+            <div class="switch">
+                <span class="switch">
+                    Already have a account?
+                    <label for="check">Login</label>
+                </span>
+            </div>   
+        </div>   
+        <div class="login form" id="log">
+            <header class="header">Login</header>
+            <form action="#" class="form">
+                <input type="text" placeholder="Email ID" id="lemail">
+                <input type="password" placeholder="Password" id="lpass">
+                <a href="#" id="fpass">Forgot password?</a>
+                <div class="logagree">
+                    <input type="checkbox" name="check2" class="check2">
+                    <label for="check2" class="agree">Keep me signed in on this device</label>
+                </div>
+                <input type="button" class="btn log" value="Login" onclick="login()">
+            </form>
+            <div class="switch">
+                <span class="switch">Don't have an account?
+                <label for="check">Signup</label>
+                </span>
+            </div>
+        </div>
+    </div>
+    <script>
+        let form = document.getElementById('form');
+        let user = document.getElementById('user');
+        let semail = document.getElementById('semail');
+        let spass = document.getElementById('spass');
+        let lemail = document.getElementById('lemail');
+        let lpass = document.getElementById('lpass');
+        let pass2 = document.getElementById('confirmpass');
+        let check = document.getElementById('agree');
+        let sign = document.getElementById('sign');
+        let log = document.getElementById('log');
+        let checkbox = document.getElementById('check');
+        
+        // form.addEventListener('submit', async function(event) {
+        //     event.preventDefault(); // Prevent the form from submitting normally
+        //     if(user.value == '' || pass1.value == '' || pass2.value == '') {
+        //         alert("ggjfhfhg");
+        //         return;
+        //     } else {
+        //         window.location.replace("http://localhost:8080/main");
+        //     }
+        // })
+
+        async function change() {
+            console.log("change");
+            let headersList = {
+             "Accept": "*/*",
+             "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+             "Content-Type": "application/json"
+            }
+
+            let bodyContent = JSON.stringify({
+              "email": semail.value,
+              "pass": spass.value
+            });
+            console.log("change1");
+
+            let response = await fetch("http://localhost:8080/sign", { 
+              method: "POST",
+              body: bodyContent,
+              headers: headersList
+            });
+            console.log("change2");
+
+            let data = await response.text();
+            console.log(data);
+            checkbox.checked = true;
+        }
+
+        async function login() {
+            if(lemail.value == '' || lpass.value == '') {
+                alert("Enter all values!");
+                return;
+            } else {
+                console.log("login");
+                let headersList = {
+                 "Accept": "*/*",
+                 "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+                 "Content-Type": "application/json"
+                }
+
+                let bodyContent = JSON.stringify({
+                  "lemail": lemail.value,
+                  "lpass": lpass.value
+                });
+
+                let response = await fetch("http://localhost:8080/login", { 
+                  method: "POST",
+                  body: bodyContent,
+                  headers: headersList
+                });
+
+                let data = await response.text();
+                console.log(data);
+                window.location.replace("http://localhost:8080/main");
+            }
+        }
+
+    </script>
+</body>
+</html>

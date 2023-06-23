@@ -1,0 +1,717 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/c33097aea5.js" crossorigin="anonymous"></script>
+    <style>
+      *{
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body{
+        width: 100vw;
+        height: 100vh;
+        background-color: #e8e8f0;
+        overflow: hidden;
+        /* padding: 1vh 1vw 1vh 1vw; */
+      }
+      form {
+        width: 100vw;
+      }
+input[type="text"],
+input[type="file"] {
+  width: 16vw;
+  height: 6vh;
+  margin-right: 0.5vw;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-shadow: inset ;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+
+.content {
+  margin-top: 1vh;
+  margin-bottom: 0.2vh;
+  width: 100vw;
+  height: 8vh;
+  padding-top: 1vh;
+  /* padding: 1vh, 1vw; */
+  padding-bottom: 2vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.upload-container {
+  display: flex;
+  align-items: center;
+}
+
+
+.add-container {
+  display: flex;
+  align-items: center;
+}
+
+.upload-input {
+  display: none;
+  margin-right: 3vh;
+}
+
+.upload-button {
+  height: 6vh;
+  /* display: inline-block; */
+  display: flex;
+  padding: 10px 10px;
+  margin-right: 0.5vw;
+  background-color: #f04b3f;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  /* margin-left: 2vw; */
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.upload-button:hover {
+  background-color: #e2473c;
+}
+
+.upload-button:active {
+  background-color: #1c4566;
+}
+
+.upload-button:focus {
+  outline: none;
+}
+
+.add_button {
+  height: 6vh;
+  /* display: inline-block; */
+  display: flex;
+  padding: 10px 10px;
+  margin-right: 0.5vw;
+  background-color: #003cff;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  /* margin-left: 2vw; */
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.add_button:hover {
+  background-color: #0037eb;
+}
+
+.add_button:active {
+  background-color: #1c4566;
+}
+
+.add_button:focus {
+  outline: none;
+}
+
+
+.upload-input:focus + .upload-button {
+  box-shadow: 0 0 0 3px rgba(51, 122, 183, 0.5);
+}
+
+.upload_icon{
+    cursor: pointer;
+    font-size: 3vh;
+    margin-right: 0.8vw;
+}
+.add_emp{
+    cursor: pointer;
+    font-size: 3vh;
+    margin-right: 0.8vw;
+}
+
+.upload_icon:hover{
+   
+   background-color: rgb(86, 86, 86) ;
+
+}
+
+.upload_icon:active{
+   
+   background-color: rgb(33, 33, 35) ;
+
+}
+
+.upload-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.bottom {
+  width: 100vw;
+  height: 90vh;
+  background-color: rgb(220, 228, 226);
+}
+.title {
+  margin-bottom: 4vh;
+  width: 100vw;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5.5vh;
+  color: #443e3e;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: rgb(255, 251, 251);
+}
+
+.table_body {
+    max-width: 80vw;
+    max-height: 59.9vh;
+    border: 1px solid #00bcd4;
+    background-color: #efefef33;
+    padding: 15px;
+    overflow-y: scroll;
+    /* overflow-x: hidden;
+    overflow-y: scroll; */
+    margin: auto;
+    border-radius: 4px;
+}
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    background: rgb(253, 255, 255);
+}
+::-webkit-scrollbar-thumb {
+    background: #b1dfdf;
+}
+.table {
+    width: 100%;
+    font-size: 13px;
+    color: #444;
+    white-space: nowrap;
+    border-collapse: collapse;
+}
+thead {
+    background-color: #00bcd4;
+    color: #fff;
+}
+thead th {
+    border: 1px solid #00000017;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 3.3vh;
+    font-family:'Times New Roman', Times, serif;
+}
+
+table td {
+    font-size: 2.9vh;
+    border: 1px solid #00000017;
+    padding: 10px 15px;
+}
+table>tbody>tr>td>img {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 2px 6px #0003;
+}
+span {
+  display: flex;
+  justify-content: center;
+  /* justify-content: space-between; */
+}
+
+.update-container {
+  display: flex;
+  align-items: center;
+  margin-right: 3vw;
+}
+
+.up_button {
+  /* height: 6vh; */
+  /* display: inline-block; */
+  display: flex;
+  padding: 10px 10px;
+  margin-right: 0.5vw;
+  background-color: #00b894;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  /* margin-left: 2vw; */
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.up_button:hover {
+  background-color: #00ad8b;
+}
+
+.up_button:active {
+  background-color: #009476;
+}
+
+.up_button:focus {
+  outline: none;
+}
+
+.up_emp{
+    cursor: pointer;
+    /* font-size: 3vh; */
+    margin-right: 0.8vw;
+}
+
+
+.delete-container {
+  display: flex;
+  align-items: center;
+}
+
+.del_button {
+  /* height: 6vh; */
+  /* display: inline-block; */
+  display: flex;
+  padding: 10px 10px;
+  margin-right: 0.5vw;
+  background-color: #e74c3c;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  /* margin-left: 2vw; */
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.del_button:hover {
+  background-color: #dd4c3c;
+}
+
+.del_button:active {
+  background-color: #be3e2f;
+}
+
+.del_button:focus {
+  outline: none;
+}
+
+.del_emp{
+    cursor: pointer;
+    /* font-size: 3vh; */
+    margin-right: 0.8vw;
+}
+
+
+.update {
+  height: 5vh;
+  /* display: inline-block; */
+  display: flex;
+  padding: 1.5vh 1vw;
+  margin-right: 0.5vw;
+  background-color: #00b894;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  /* margin-left: 2vw; */
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+
+.wrapper{
+  position: absolute;
+  margin-left: 34.5vw;
+  margin-top: 5vh;
+  max-width: 31vw;
+  background: #fff;
+  padding: 34px;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  display: none;
+  backdrop-filter: blur(5px);
+}
+.wrapper h2{
+  position: relative;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+.wrapper h2::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 28px;
+  border-radius: 12px;
+  background: #4070f4;
+}
+.wrapper form{
+  margin-top: 30px;
+}
+.wrapper form .input-box{
+  height: 52px;
+  margin: 18px 0;
+}
+.input-file {
+    height: 52px;
+    margin: 18px 0;
+
+  display: flex;
+  align-items: center;
+}
+
+.input-file input[type="file"] {
+    width: 25vw;
+    height: 52px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.input-file input[type="file"]:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+.wrapper form .input-box input{
+  height: 52px;
+  width: 25vw;
+  outline: none;
+  padding: 0 15px;
+  font-size: 17px;
+  font-weight: 400;
+  color: #333;
+  border: 1.5px solid #C7BEBE;
+  border-bottom-width: 2.5px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+.wrapper .input-box input:focus,
+.wrapper .input-box input:valid{
+  border-color: #4070f4;
+}
+.wrapper form .policy{
+  display: flex;
+  align-items: center;
+}
+.wrapper form h3{
+  color: #707070;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+.wrapper .input-box.button input{
+  color: #fff;
+  letter-spacing: 1px;
+  border: none;
+  background: #4070f4;
+  cursor: pointer;
+}
+.wrapper .input-box.button input:hover{
+  background: #0e4bf1;
+}
+
+    </style>
+</head>
+<body onload="call_read()">
+  <div class="wrapper" id="wrapper">
+    <h2>Employee Updation</h2>
+    <form action="#" id="upform">
+      <div class="input-box">
+        <input type="text" id="uname" placeholder="Name" required>
+      </div>
+      <div class="input-box">
+        <input type="text" id="uid" placeholder="Id" required>
+      </div>
+      <div class="input-box">
+        <input type="email" id="uemail" placeholder="Email" required>
+      </div>
+      <div class="input-box">
+        <input type="text" id="ucon" placeholder="Contact" required>
+      </div>
+      <div class="input-file">
+        <input type="file" id="uimg" required>
+      </div>
+      <div class="policy">
+        <input type="checkbox">
+        <h3>I accept all terms & condition</h3>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" value="Register Now">
+      </div>
+    </form>
+  </div>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <div class="content">
+          <input id="name" value="" type="text" placeholder="Name">
+          <input id="email" value="" type="text" placeholder="Email">
+          <input id="id" value="" type="text" placeholder="Id">
+          <input id="contact" value="" type="text" placeholder="Contact">
+          <div class="upload-container"><button type="button" class="upload-button">
+                <input type="file" id="img" name="img" class="upload-input" name="mediaFile"><label for="img" class="upload_icon" title="Upload Files"><i class="fa-solid fa-file-arrow-up" style="color: #ffffff;"></i></label>
+                <h3>Upload Image</h3></button>
+          </div>
+          <div class="add-container"><button type="submit" class="add_button">
+                <label for="" class="add_emp" title="Upload Files"><i class="fa-solid fa-user-plus" style="color: #ffffff;"></i></label>
+                <h3>Add Employee</h3></button>
+          </div>
+          <!-- <button id="submit-btn" type="submit">+ Add Employee</button> -->
+      </div>
+    </form>
+  </div>
+  <div class="bottom" id="bottom">
+
+    <div class="title">Employee List</div>
+
+    <div class="table_body">
+      <table class="table">
+        <thead>
+          <tr class="tr_header">
+            <th>Name</th>
+            <th>Image</th>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    var imgdata, data, dataread = [], cname, upbuttonId;
+      const uploadForm = document.getElementById('uploadForm');
+      var ename = document.getElementById('name');
+      var id = document.getElementById('id');
+      var email = document.getElementById('email');
+      var contact = document.getElementById('contact');
+      var img = document.getElementById('img');
+      var uname = document.getElementById('uname');
+      var uid = document.getElementById('uid');
+      var uemail = document.getElementById('uemail');
+      var ucon = document.getElementById('ucon');
+      var uimg = document.getElementById('uimg');
+      var submit = document.getElementById('submit-btn');
+      var tbody = document.getElementById('tbody');
+      var wrapper = document.getElementById('wrapper');
+      var upform = document.getElementById('upform');
+      console.log("name: "+ename.value);
+
+
+          uploadForm.addEventListener('submit', async function(event) {
+            console.log("Call Submit");
+            console.log(contact.value);
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const fileInput = document.getElementById('img');
+            const file = fileInput.files[0]; // Get the selected file
+            console.log("file: " + file.type);
+            const filetype = file.type;
+            let filetypestr = String(filetype);
+            let filetype1 = filetypestr.slice(0,5);
+            console.log("filetype: "+filetype1);
+
+            if (file) {
+                let bodyContent = new FormData();
+                bodyContent.append(filetype1, file);
+                bodyContent.append("contact", contact.value);
+                console.log("formdata: "+bodyContent.values);
+                
+                if (filetype1 == 'image') {
+                    let response = await fetch("http://localhost:8080/img", { 
+                        method: "POST",
+                        body: bodyContent
+                    });
+                    imgdata = await response.json();
+                    console.log("imgdata"+imgdata);
+                    call_create();
+                }  else {
+                    alert("File Type is Incorrect\nYou have chosen a "+filetype1+" file type\nPlease choose a image type file!");
+                    return;
+                }
+            }
+        });
+
+
+        upform.addEventListener('submit', async function(event) {
+            console.log("Call Submit");
+            console.log(ucon.value);
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const fileInput = document.getElementById('uimg');
+            const file = fileInput.files[0]; // Get the selected file
+            console.log("file: " + file.type);
+            const filetype = file.type;
+            let filetypestr = String(filetype);
+            let filetype1 = filetypestr.slice(0,5);
+            console.log("filetype: "+filetype1);
+
+            if (file) {
+                let bodyContent = new FormData();
+                bodyContent.append(filetype1, file);
+                bodyContent.append("contact", ucon.value);
+                console.log("formdata: "+bodyContent.values);
+                
+                if (filetype1 == 'image') {
+                    let response = await fetch("http://localhost:8080/img", { 
+                        method: "POST",
+                        body: bodyContent
+                    });
+                    imgdata = await response.json();
+                    console.log("imgdata"+imgdata);
+                    call_update();
+                }  else {
+                    alert("File Type is Incorrect\nYou have chosen a "+filetype1+" file type\nPlease choose a image type file!");
+                    return;
+                }
+            }
+        });
+
+        async function call_create() {
+          let headersList = {
+ "Accept": "*/*",
+ "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+ "Content-Type": "application/json"
+}
+console.log(contact.value);
+cname = ename.value;
+let bodyContent = JSON.stringify({
+  "Name": ename.value,
+  "Id": id.value,
+  "Email": email.value,
+  "Contact": contact.value
+});
+
+let response = await fetch("http://localhost:8080/create", { 
+  method: "POST",
+  body: bodyContent,
+  headers: headersList
+});
+
+let data = await response.text();
+console.log(data);
+alert("Employee registered successfully");
+window.location.reload('http://localhost:8080/main');
+        }
+      async function call_read() {
+        let headersList = {
+ "Accept": "*/*",
+ "User-Agent": "Thunder Client (https://www.thunderclient.com)"
+}
+
+let response = await fetch("http://localhost:8080/readall", { 
+  method: "GET",
+  headers: headersList
+});
+
+ dataread = await response.json();
+        console.log(dataread[0]['name']);
+console.log(dataread);
+display();
+
+      }
+
+      async function display() {
+        let len = dataread.length;
+        for(let i = 0; i < len; i++ ) {
+          console.log(dataread[i]['name']);
+          tbody.innerHTML += '\n  <tr class="tr">\n    <td>'+dataread[i]['name']+'</td>\n    <td><img src="https://firebasestorage.googleapis.com/v0/b/upload-file-c9db4.appspot.com/o/images%2Fbg4.jpg?alt=media&token=1d435986-9e0f-4945-b132-1224d81c11d9" alt="" style="width: 3vw;"></td>\n   <td>'+dataread[i]['id']+'</td>\n    <td>'+dataread[i]['email']+'</td>\n    <td>'+dataread[i]['contact']+'</td>\n   <td>\n      <span class="action_btn">\n       <div class="update-container"><button type="update" onclick = "proc_update(event)" class="up_button" id="'+dataread[i]['contact']+'">\n          <label for="" class="up_emp" title="Upload Files"><i class="fa-solid fa-pencil" style="color: #ffffff;"></i></label>\n              Update</button>\n        </div>\n       <div class="delete-container"><button type="button" onclick = "proc_delete(event)" class="del_button" id="'+dataread[i]['contact']+'">\n          <label for="" class="del_emp" title="Upload Files"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></label>\n              Delete</button>\n        </div>\n      </span>\n    </td>\n  </tr>';
+        }
+        console.log(tbody.innerHTML);
+      }  
+
+      function proc_update(event) {
+      var clickedButton = event.target;
+      console.log(event.target);
+      var buttons = document.getElementsByClassName("up_button");
+
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i] === clickedButton) {
+          upbuttonId = buttons[i].id;
+          console.log("Clicked button id: " + upbuttonId);
+          break;
+        }
+      }
+        wrapper.style.display = "block";
+      }
+
+      function proc_delete(event) {
+      var clickedButton = event.target;
+      console.log(event.target);
+      var buttons = document.getElementsByClassName("del_button");
+
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i] === clickedButton) {
+          upbuttonId = buttons[i].id;
+          console.log("Clicked button id: " + upbuttonId);
+          break;
+        }
+      }
+      call_delete();
+      }
+
+      async function call_update() {
+        let headersList = {
+ "Accept": "*/*",
+ "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+ "Content-Type": "application/json"
+}
+console.log('up: '+upbuttonId);
+let bodyContent = JSON.stringify({
+  "UpContact": upbuttonId, 
+  "Name": uname.value,
+  "Id": uid.value,
+  "Email": uemail.value,
+  "Contact": ucon.value
+});
+
+let response = await fetch("http://localhost:8080/update", { 
+  method: "POST",
+  body: bodyContent,
+  headers: headersList
+});
+
+let data = await response.text();
+console.log(data);
+wrapper.style.display = 'none';
+window.location.reload('http://localhost:8080/main');
+      }
+
+      async function call_delete() {
+        let headersList = {
+ "Accept": "*/*",
+ "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+ "Content-Type": "application/json"
+}
+console.log("de;:"+upbuttonId);
+let bodyContent = JSON.stringify({
+  "contact": upbuttonId
+});
+
+let response = await fetch("http://localhost:8080/delete", { 
+  method: "POST",
+  body: bodyContent,
+  headers: headersList
+});
+
+let data = await response.json();
+console.log(data);
+console.log("Delete!"+data);
+
+window.location.reload('http://localhost:8080/main');
+
+      }
+
+    </script>
+</body>
+</html>

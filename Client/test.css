@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body{
+  width: 100vw;
+  height: 100vh;
+  background: #4070f4;
+  overflow: hidden;
+}
+.wrapper{
+  position: absolute;
+  margin-left: 34.5vw;
+  margin-top: 5vh;
+  max-width: 31vw;
+  background: #fff;
+  padding: 34px;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  backdrop-filter: blur(5px);
+}
+.wrapper h2{
+  position: relative;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+.wrapper h2::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 28px;
+  border-radius: 12px;
+  background: #4070f4;
+}
+.wrapper form{
+  margin-top: 30px;
+}
+.wrapper form .input-box{
+  height: 52px;
+  margin: 18px 0;
+}
+.input-file {
+    height: 52px;
+    margin: 18px 0;
+
+  display: flex;
+  align-items: center;
+}
+
+.input-file input[type="file"] {
+    width: 25vw;
+    height: 52px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.input-file input[type="file"]:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+.wrapper form .input-box input{
+  height: 52px;
+  width: 25vw;
+  outline: none;
+  padding: 0 15px;
+  font-size: 17px;
+  font-weight: 400;
+  color: #333;
+  border: 1.5px solid #C7BEBE;
+  border-bottom-width: 2.5px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+.wrapper .input-box input:focus,
+.wrapper .input-box input:valid{
+  border-color: #4070f4;
+}
+.wrapper form .policy{
+  display: flex;
+  align-items: center;
+}
+.wrapper form h3{
+  color: #707070;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+.wrapper .input-box.button input{
+  color: #fff;
+  letter-spacing: 1px;
+  border: none;
+  background: #4070f4;
+  cursor: pointer;
+}
+.wrapper .input-box.button input:hover{
+  background: #0e4bf1;
+}

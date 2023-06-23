@@ -1,0 +1,278 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Effect</title>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script> -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script> -->
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://firebasestorage.googleapis.com/v0/b/upload-file-c9db4.appspot.com/o/images%2Fbg4.jpg?alt=media&token=1d435986-9e0f-4945-b132-1224d81c11d9");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    max-width: 430px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    /* backdrop-filter: blur(5px); */
+    color: #fff;
+}
+
+#check {
+    display: none;
+}
+
+.login {
+    display: none;
+}
+
+#check:checked ~ .login {
+    display: block;
+}
+
+#check:checked ~ .regis {
+    display: none;
+}
+
+#log {
+    margin: 0.4rem 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+#sign {
+    margin: 0.4rem 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+form input {
+    width: 100%;
+    height: 56px;
+    font-size: 17px;
+    padding: 0 15px;
+    margin-bottom: 1.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(-5px);
+    border-radius: 5px;
+    box-shadow: inset 0px 0px 5px rgba(0,0,0, 0.5);
+    outline: none;
+    color: #fff;
+}
+
+form input:focus {
+   box-shadow: 1 2px 2px rgba(0,0,0,0.2);
+}
+
+#fpass {
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+}
+#fpass:hover{
+    text-decoration: underline;
+}
+
+.logagree {
+    margin-top: 1.4rem;
+    margin-bottom: 0.6rem;
+}
+
+.check2 {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+}
+
+.agree{
+    color: white;
+    font-size: 1rem;
+    margin-right: 2rem;
+}
+
+.btn {
+    margin: 0.4rem 24%;
+    padding: 0.6rem;
+    outline: none;
+    width: 12rem;
+    height: 3rem;
+    border-radius: 20px;
+    border-style: none;
+    background-color: rgb(6, 212, 151);
+    font-weight: 600;
+    font-size: large;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.switch {
+  margin-top: 1rem;  
+  font-size: 17px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.switch label{
+    color: white;
+  cursor: pointer;
+}
+.switch label:hover{
+  text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    <div class="back" id="back"></div>
+    <div class="container">
+        <input type="checkbox" name="check" id="check">
+        <div class="regis form" id="sign">
+            <form action="#"  id="form" class="form">
+                <header class="header">Signup</header>
+                <input type="tel" placeholder="Phone Number" id="phone">
+                <div class="recaptha-container" id="recaptcha-container"></div>
+                <button type="button" id="phonebtn" class="btn regis">Send OTP</button>
+            </form>
+        </div>   
+        <div class="login form" id="otp">
+            <header class="header">Login</header>
+            <form action="#" class="form">
+                <input type="text" placeholder="OTP" id="otpnum">
+                <button type="button" class="btn log" id="verify" onclick="login()">Verify</button>
+                <div class="p-conf">Number Verified</div>
+                <div class="n-conf">OTP ERROR</div>
+            </form>
+        </div>
+    </div>
+    <script type="module">
+        // let back = document.getElementById('back');
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js';
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
+
+var sign = document.getElementById('sign');
+var otp = document.getElementById('otp');
+var verify = document.getElementById('verify');
+var phone = document.getElementById('phone');
+var otpnum = document.getElementById('otpnum');
+
+verify.onclick = function() {
+  login();
+}
+
+console.log("Hello");
+// Your Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyCMQ0UXkXik0ZjrJQ5rx9j_DIUPscpYRT8",
+    authDomain: "employee-portal-52275.firebaseapp.com",
+    projectId: "employee-portal-52275",
+    storageBucket: "employee-portal-52275.appspot.com",
+    messagingSenderId: "658075074714",
+    appId: "1:658075074714:web:902b5cd245e75de0901f23",
+    measurementId: "G-J3VEN2FYSW"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+auth.useDeviceLanguage();
+
+window.recaptchaVerifier = new RecaptchaVerifier('phonebtn', {
+    'size': 'invisible',
+    'callback': (response) => {
+      // reCAPTCHA solved, allow signInWithPhoneNumber.
+       onSignInSubmit();
+       console.log("hiiii");
+    //   console.log(response);
+    }
+  }, auth);
+  // window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
+  var i = 0;
+function re() {
+  if(i == 0) {
+  window.recaptchaVerifier.render().then(function(widgetId) {
+    console.log("18888");
+      grecaptcha.reset(widgetId);
+      i++;
+  });
+  }
+}
+re();
+
+
+  function onSignInSubmit() {
+    const phoneNumber = '+91'+phone.value;
+    console.log(phoneNumber);
+    const appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+    .then((confirmationResult) => {
+      // SMS sent. Prompt user to type the code from the message, then sign the
+      // user in with confirmationResult.confirm(code).
+      window.confirmationResult = confirmationResult;
+      sign.style.display = 'none';
+      otp.style.display = 'block';
+
+    //   console.log(confirmationResult);
+      // ...
+    }).catch((error) => {
+      // Error; SMS not sent
+      // ...
+      console.log(error);
+    });
+  }
+
+//   window.recaptchaVerifier.render().then(function(widgetId) {
+//     // grecaptcha.reset(widgetId);
+// });
+// Or, if you haven't stored the widget ID:
+  function login() {
+    const code = otpnum.value;
+    console.log(otpnum.value);
+    console.log(code);
+    confirmationResult.confirm(code).then((result) => {
+      // User signed in successfully.
+      const user = result.user;
+      console.log("success!");
+      window.location.replace('http://localhost:8080/main')
+      
+      // ...
+    }).catch((error) => {
+      console.log(error);
+      // User couldn't sign in (bad verification code?)
+      // ...
+    });
+  }
+
+
+export { auth };
+    </script>
+</body>
+</html>
