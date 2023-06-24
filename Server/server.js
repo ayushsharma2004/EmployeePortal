@@ -42,6 +42,7 @@ const port = process.env.PORT || 8080;
 
 const { log } = require('console');
 const { mainModule } = require("process");
+const { url } = require("inspector");
 
 const credential = {
   type: process.env.type,
@@ -129,9 +130,9 @@ app.post('/img', upload.single("image"), (req, res) => {
     res.status(400).send("No File uploaded");
     return;
   }
-  let cont = req.body.contact;
-  console.log("req.b.c: "+ req.body.contact);
-  const folderRef = ref(storageRef, cont);
+  let id = req.body.id;
+  console.log("req.b.i: "+ req.body.id);
+  const folderRef = ref(storageRef, id);
   i++;
   const fileRef = ref(folderRef, req.file.originalname);
   console.log("fileref: "+fileRef);
@@ -146,7 +147,7 @@ app.post('/img', upload.single("image"), (req, res) => {
       console.log("fname: "+ fileRef.name);
       console.log("url: " + url);
       urll = url 
-      res.send(fileRef);
+      res.send(url);
       console.log("fname: "+ fname);
       console.log("urll: " + urll);
     })
@@ -222,13 +223,14 @@ function signin() {
 app.post('/update', async (req, res) => {
   try {
     console.log("Update!");
-    const userRef = await db.collection('users').doc(req.body.UpContact).update({
+    const userRef = await db.collection('users').doc(req.body.Id).update({
       name: req.body.Name,
       email: req.body.Email,
       id: req.body.Id,
-      contact: req.body.Contact
+      contact: req.body.Contact,
+      url: req.body.Url
     });
-    console.log(req.body.Contact);
+    console.log(req.body.Url);
     res.send(userRef);
   }
   catch(error) {
@@ -239,7 +241,7 @@ app.post('/update', async (req, res) => {
 app.post('/delete', async (req, res) => {
   try {
     console.log(req.body.contact);
-    const response = await db.collection('users').doc(req.body.contact).delete();
+    const response = await db.collection('users').doc(req.body.id).delete();
     console.log(response);
     res.send(response);
   }
@@ -252,16 +254,16 @@ app.post('/create', async (req, res) => {
   console.log("Calling Create api");
   try {
     // call_read();
-    let idfs = req.body.Contact;
+    let idfs = req.body.Id;
     console.log("Contact: "+req.body.Contact);
-    console.log("contact: "+req.body.contact);
+    console.log("Id: "+req.body.Id);
     const userJson = {
       name: req.body.Name,
       id: req.body.Id,
       email: req.body.Email,
-      contact: req.body.Contact 
+      contact: req.body.Contact,
+      url: req.body.Url
     };
-    console.log(process.env.collectionName);
     // const response = await db.collection(process.env.collectionName).add(userJson);
     console.log("Calling Create api2");
     const response = await db.collection(process.env.collectionName1).doc(idfs).set(userJson);
@@ -282,8 +284,8 @@ console.log("Gmail&Pass: "+gmail);
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: "ayush.s.sharma04@gmail.com",
-    pass: "buzdectziryfqlgl",
+    user: process.env.authacc,
+    pass: process.env.authpass,
   }
 });
 

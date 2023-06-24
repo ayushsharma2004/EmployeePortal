@@ -489,7 +489,7 @@ span {
     </div>
   </div>
   <script>
-    var imgdata, data, dataread = [], cname, upbuttonId;
+    var imgdata, imgurl, data, dataread = [], cname, upbuttonId;
       const uploadForm = document.getElementById('uploadForm');
       var ename = document.getElementById('name');
       var id = document.getElementById('id');
@@ -524,7 +524,7 @@ span {
             if (file) {
                 let bodyContent = new FormData();
                 bodyContent.append(filetype1, file);
-                bodyContent.append("contact", contact.value);
+                bodyContent.append("contact", id.value);
                 console.log("formdata: "+bodyContent.values);
                 
                 if (filetype1 == 'image') {
@@ -532,8 +532,8 @@ span {
                         method: "POST",
                         body: bodyContent
                     });
-                    imgdata = await response.json();
-                    console.log("imgdata"+imgdata);
+                    imgurl = await response.text();
+                    console.log("imgurl"+imgurl);
                     call_create();
                 }  else {
                     alert("File Type is Incorrect\nYou have chosen a "+filetype1+" file type\nPlease choose a image type file!");
@@ -559,7 +559,7 @@ span {
             if (file) {
                 let bodyContent = new FormData();
                 bodyContent.append(filetype1, file);
-                bodyContent.append("contact", ucon.value);
+                bodyContent.append("contact", uid.value);
                 console.log("formdata: "+bodyContent.values);
                 
                 if (filetype1 == 'image') {
@@ -567,8 +567,8 @@ span {
                         method: "POST",
                         body: bodyContent
                     });
-                    imgdata = await response.json();
-                    console.log("imgdata"+imgdata);
+                    imgurl = await response.text();
+                    console.log("imgurl"+imgurl);
                     call_update();
                 }  else {
                     alert("File Type is Incorrect\nYou have chosen a "+filetype1+" file type\nPlease choose a image type file!");
@@ -589,7 +589,8 @@ let bodyContent = JSON.stringify({
   "Name": ename.value,
   "Id": id.value,
   "Email": email.value,
-  "Contact": contact.value
+  "Contact": contact.value,
+  "Url": imgurl
 });
 
 let response = await fetch("http://localhost:8080/create", { 
@@ -625,7 +626,7 @@ display();
         let len = dataread.length;
         for(let i = 0; i < len; i++ ) {
           console.log(dataread[i]['name']);
-          tbody.innerHTML += '\n  <tr class="tr">\n    <td>'+dataread[i]['name']+'</td>\n    <td><img src="https://firebasestorage.googleapis.com/v0/b/upload-file-c9db4.appspot.com/o/images%2Fbg4.jpg?alt=media&token=1d435986-9e0f-4945-b132-1224d81c11d9" alt="" style="width: 3vw;"></td>\n   <td>'+dataread[i]['id']+'</td>\n    <td>'+dataread[i]['email']+'</td>\n    <td>'+dataread[i]['contact']+'</td>\n   <td>\n      <span class="action_btn">\n       <div class="update-container"><button type="update" onclick = "proc_update(event)" class="up_button" id="'+dataread[i]['contact']+'">\n          <label for="" class="up_emp" title="Upload Files"><i class="fa-solid fa-pencil" style="color: #ffffff;"></i></label>\n              Update</button>\n        </div>\n       <div class="delete-container"><button type="button" onclick = "proc_delete(event)" class="del_button" id="'+dataread[i]['contact']+'">\n          <label for="" class="del_emp" title="Upload Files"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></label>\n              Delete</button>\n        </div>\n      </span>\n    </td>\n  </tr>';
+          tbody.innerHTML += '\n  <tr class="tr">\n    <td>'+dataread[i]['name']+'</td>\n    <td><img src="'+dataread[i]['url']+'" alt="" style="width: 3vw;"></td>\n   <td>'+dataread[i]['id']+'</td>\n    <td>'+dataread[i]['email']+'</td>\n    <td>'+dataread[i]['contact']+'</td>\n   <td>\n      <span class="action_btn">\n       <div class="update-container"><button type="update" onclick = "proc_update(event)" class="up_button" id="'+dataread[i]['contact']+'">\n          <label for="" class="up_emp" title="Upload Files"><i class="fa-solid fa-pencil" style="color: #ffffff;"></i></label>\n              Update</button>\n        </div>\n       <div class="delete-container"><button type="button" onclick = "proc_delete(event)" class="del_button" id="'+dataread[i]['id']+'">\n          <label for="" class="del_emp" title="Upload Files"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></label>\n              Delete</button>\n        </div>\n      </span>\n    </td>\n  </tr>';
         }
         console.log(tbody.innerHTML);
       }  
@@ -668,11 +669,11 @@ display();
 }
 console.log('up: '+upbuttonId);
 let bodyContent = JSON.stringify({
-  "UpContact": upbuttonId, 
   "Name": uname.value,
   "Id": uid.value,
   "Email": uemail.value,
-  "Contact": ucon.value
+  "Contact": ucon.value,
+  "Url": imgurl
 });
 
 let response = await fetch("http://localhost:8080/update", { 
@@ -695,7 +696,7 @@ window.location.reload('http://localhost:8080/main');
 }
 console.log("de;:"+upbuttonId);
 let bodyContent = JSON.stringify({
-  "contact": upbuttonId
+  "id": upbuttonId
 });
 
 let response = await fetch("http://localhost:8080/delete", { 
