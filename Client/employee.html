@@ -87,7 +87,7 @@ input[type="file"] {
 }
 
 .upload-button:active {
-  background-color: #1c4566;
+  background-color: #c9362c;
 }
 
 .upload-button:focus {
@@ -114,7 +114,7 @@ input[type="file"] {
 }
 
 .add_button:active {
-  background-color: #1c4566;
+  background-color: #002fca;
 }
 
 .add_button:focus {
@@ -426,26 +426,26 @@ span {
     <h2>Employee Updation</h2>
     <form action="#" id="upform">
       <div class="input-box">
-        <input type="text" id="uname" placeholder="Name" required>
+        <input type="text" id="uname" placeholder="Name">
       </div>
       <div class="input-box">
-        <input type="text" id="uid" placeholder="Id" required>
+        <input type="text" id="uid" placeholder="Id">
       </div>
       <div class="input-box">
-        <input type="email" id="uemail" placeholder="Email" required>
+        <input type="email" id="uemail" placeholder="Email">
       </div>
       <div class="input-box">
-        <input type="text" id="ucon" placeholder="Contact" required>
+        <input type="text" id="ucon" placeholder="Contact">
       </div>
       <div class="input-file">
-        <input type="file" id="uimg" required>
+        <input type="file" id="uimg" placeholder="Image" value="Image">
       </div>
       <div class="policy">
         <input type="checkbox">
         <h3>I accept all terms & condition</h3>
       </div>
       <div class="input-box button">
-        <input type="Submit" value="Register Now">
+        <input type="Submit" value="Update Now">
       </div>
     </form>
   </div>
@@ -457,7 +457,7 @@ span {
           <input id="contact" value="" type="text" placeholder="Contact">
           <div class="upload-container"><button type="button" class="upload-button">
                 <input type="file" id="img" name="img" class="upload-input" name="mediaFile"><label for="img" class="upload_icon" title="Upload Files"><i class="fa-solid fa-file-arrow-up" style="color: #ffffff;"></i></label>
-                <h3>Upload Image</h3></button>
+                <label for="img"><h3>Upload Image</h3></label></button>
           </div>
           <div class="add-container"><button type="submit" class="add_button">
                 <label for="" class="add_emp" title="Upload Files"><i class="fa-solid fa-user-plus" style="color: #ffffff;"></i></label>
@@ -489,7 +489,7 @@ span {
     </div>
   </div>
   <script>
-    var imgdata, imgurl, data, dataread = [], cname, upbuttonId;
+    var imgdata, imgname, imgurl, imgfile, data, dataread = [], cname, upbuttonId;
       const uploadForm = document.getElementById('uploadForm');
       var ename = document.getElementById('name');
       var id = document.getElementById('id');
@@ -505,6 +505,7 @@ span {
       var tbody = document.getElementById('tbody');
       var wrapper = document.getElementById('wrapper');
       var upform = document.getElementById('upform');
+      var bottom = document.getElementById('bottom');
       console.log("name: "+ename.value);
 
 
@@ -532,8 +533,12 @@ span {
                         method: "POST",
                         body: bodyContent
                     });
-                    imgurl = await response.text();
-                    console.log("imgurl"+imgurl);
+                    imgdata = await response.json();
+                    imgname = imgdata.imgname;
+                    imgurl = imgdata.url;
+                    console.log(imgname);
+                    console.log(imgurl);
+
                     call_create();
                 }  else {
                     alert("File Type is Incorrect\nYou have chosen a "+filetype1+" file type\nPlease choose a image type file!");
@@ -567,8 +572,11 @@ span {
                         method: "POST",
                         body: bodyContent
                     });
-                    imgurl = await response.text();
-                    console.log("imgurl"+imgurl);
+                    imgdata = await response.json();
+                    imgname = imgdata.imgname;
+                    imgurl = imgdata.imgurl;
+                    console.log(imgname);
+                    console.log(imgurl);
                     call_update();
                 }  else {
                     alert("File Type is Incorrect\nYou have chosen a "+filetype1+" file type\nPlease choose a image type file!");
@@ -590,7 +598,8 @@ let bodyContent = JSON.stringify({
   "Id": id.value,
   "Email": email.value,
   "Contact": contact.value,
-  "Url": imgurl
+  "Url": imgurl,
+  "ImgName": imgname
 });
 
 let response = await fetch("http://localhost:8080/create", { 
@@ -601,8 +610,10 @@ let response = await fetch("http://localhost:8080/create", {
 
 let data = await response.text();
 console.log(data);
-alert("Employee registered successfully");
+console.log(imgname);
+console.log(imgurl);
 window.location.reload('http://localhost:8080/main');
+alert("Employee registered successfully");
         }
       async function call_read() {
         let headersList = {
@@ -622,11 +633,36 @@ display();
 
       }
 
+async function call_readid() {
+  let headersList = {
+ "Accept": "*/*",
+ "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+ "Content-Type": "application/json"
+}
+
+let bodyContent = JSON.stringify({
+  "Id": upbuttonId
+});
+
+let response = await fetch("http://localhost:8080/readid", { 
+  method: "POST",
+  body: bodyContent,
+  headers: headersList
+});
+
+let data = await response.json();
+uname.value = data.name;
+uid.value = data.id;
+uemail.value = data.email;
+ucon.value = data.contact;
+uimg.placeholder = data.imgname;
+}
+
       async function display() {
         let len = dataread.length;
         for(let i = 0; i < len; i++ ) {
           console.log(dataread[i]['name']);
-          tbody.innerHTML += '\n  <tr class="tr">\n    <td>'+dataread[i]['name']+'</td>\n    <td><img src="'+dataread[i]['url']+'" alt="" style="width: 3vw;"></td>\n   <td>'+dataread[i]['id']+'</td>\n    <td>'+dataread[i]['email']+'</td>\n    <td>'+dataread[i]['contact']+'</td>\n   <td>\n      <span class="action_btn">\n       <div class="update-container"><button type="update" onclick = "proc_update(event)" class="up_button" id="'+dataread[i]['contact']+'">\n          <label for="" class="up_emp" title="Upload Files"><i class="fa-solid fa-pencil" style="color: #ffffff;"></i></label>\n              Update</button>\n        </div>\n       <div class="delete-container"><button type="button" onclick = "proc_delete(event)" class="del_button" id="'+dataread[i]['id']+'">\n          <label for="" class="del_emp" title="Upload Files"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></label>\n              Delete</button>\n        </div>\n      </span>\n    </td>\n  </tr>';
+          tbody.innerHTML += '\n  <tr class="tr">\n    <td>'+dataread[i]['name']+'</td>\n    <td><img src="'+dataread[i]['url']+'" alt="" style="width: 3vw;"></td>\n   <td>'+dataread[i]['id']+'</td>\n    <td>'+dataread[i]['email']+'</td>\n    <td>'+dataread[i]['contact']+'</td>\n   <td>\n      <span class="action_btn">\n       <div class="update-container"><button type="update" onclick = "proc_update(event)" class="up_button" id="'+dataread[i]['id']+'">\n          <label for="" class="up_emp" title="Upload Files"><i class="fa-solid fa-pencil" style="color: #ffffff;"></i></label>\n              Update</button>\n        </div>\n       <div class="delete-container"><button type="button" onclick = "proc_delete(event)" class="del_button" id="'+dataread[i]['id']+'">\n          <label for="" class="del_emp" title="Upload Files"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></label>\n              Delete</button>\n        </div>\n      </span>\n    </td>\n  </tr>';
         }
         console.log(tbody.innerHTML);
       }  
@@ -643,7 +679,32 @@ display();
           break;
         }
       }
+        call_readid();
         wrapper.style.display = "block";
+        uploadForm.style.pointerEvents = 'none';
+        bottom.style.pointerEvents = 'none';
+        setTimeout(function() {
+  // Code to be executed after the specified delay
+          console.log("Waited for 5 seconds");
+         document.addEventListener('click', wrapperListener);
+      }, 700);
+
+      
+        // uploadForm.style.backdropFilter = 'blur(-5px)';
+        // bottom.style.backdropFilter = 'blur(-5px)';
+      }
+
+      function wrapperListener(event) {
+          var targetElement = event.target;
+  
+          if (!wrapper.contains(targetElement)) {
+            wrapper.style.display = "none";
+            uploadForm.style.pointerEvents = 'auto';
+            bottom.style.pointerEvents = 'auto';
+            console.log("listener");
+            document.removeEventListener('click', wrapperListener);
+          }
+
       }
 
       function proc_delete(event) {
@@ -685,6 +746,8 @@ let response = await fetch("http://localhost:8080/update", {
 let data = await response.text();
 console.log(data);
 wrapper.style.display = 'none';
+uploadForm.style.pointerEvents = 'auto';
+bottom.style.pointerEvents = 'auto';
 window.location.reload('http://localhost:8080/main');
       }
 

@@ -146,8 +146,12 @@ app.post('/img', upload.single("image"), (req, res) => {
       fname = fileRef.name
       console.log("fname: "+ fileRef.name);
       console.log("url: " + url);
-      urll = url 
-      res.send(url);
+      urll = url;
+      const imgdata = {
+        imgname: fname,
+        url: url
+      }
+      res.send(imgdata);
       console.log("fname: "+ fname);
       console.log("urll: " + urll);
     })
@@ -247,7 +251,7 @@ app.post('/delete', async (req, res) => {
   }
   catch(error) {
     res.send(error);
-  }
+  } 
 })
 
 app.post('/create', async (req, res) => {
@@ -262,7 +266,8 @@ app.post('/create', async (req, res) => {
       id: req.body.Id,
       email: req.body.Email,
       contact: req.body.Contact,
-      url: req.body.Url
+      url: req.body.Url,
+      imagename: req.body.ImgName
     };
     // const response = await db.collection(process.env.collectionName).add(userJson);
     console.log("Calling Create api2");
@@ -352,7 +357,7 @@ app.post('/login', async (req, res) => {
 
 app.get('/readall', async (req, res) => {
   try {
-    const userRef = db.collection('users');
+    const userRef = db.collection(process.env.collectionName1);
     const response = await userRef.get();
     let responseArr = [];
     if(response.empty) {
@@ -367,6 +372,21 @@ app.get('/readall', async (req, res) => {
   }
 })
 
+
+app.post('/readid', async (req, res) => {
+  try {
+    let id = req.body.Id;
+    console.log(id);
+    const userRef = db.collection(process.env.collectionName1).doc(id);
+    const response = await userRef.get();
+    res.send(response.data());
+    console.log(response);
+  }
+  catch(error) {
+    res.send(error);
+  }
+});
+
 function call_get() {
 
   var options = {
@@ -376,7 +396,7 @@ function call_get() {
   };
   
   axios.request(options).then(function (response) {
-    console.log(response.data);
+    // console.log(response.data);
   }).catch(function (error) {
     console.error(error);
   });
